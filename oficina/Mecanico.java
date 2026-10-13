@@ -8,7 +8,7 @@ public class Mecanico {
     private int horasTrabalhadas;
     private static final int LIMITE_HORAS = 44;
 
-    public Mecanico(String nome, int semanas, int horasTrabalhadas) {
+    public Mecanico(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new DadosInvalidosException("Nome do mecânico não pode ser nulo ou vazio.");
         }
@@ -17,7 +17,7 @@ public class Mecanico {
         this.horasTrabalhadas = 0;
     }
     public void defineHoras(int valor) {
-        if (valor < 0 || valor > LIMITE_HORAS) {
+        if (valor < 0) {
             throw new DadosInvalidosException("Horas trabalhadas inválidas: " + valor);
         }
         this.horasTrabalhadas = valor;
@@ -27,6 +27,20 @@ public class Mecanico {
             throw new DadosInvalidosException("Número de semanas inválido: " + valor);
         }
         this.semanas = valor;
+    }
+    public String getStatus(){
+        if(semanas > 0 && (double) horasTrabalhadas / semanas > 44){
+            return "Sobrecarregado";
+        } else {
+            return "disponível";
+        }
+    }
+    public String getNome() {
+        return nome;
+    }
+    @Override
+    public String toString() {
+        return nome + " - " + horasTrabalhadas / semanas  + " - " + getStatus();
     }
 
 }

@@ -29,6 +29,7 @@ public class Peca {
     public String getCodigo() {
         return codigo;
     }
+    @Override
     public String toString() {
         return codigo + " - " + nome + " - R$" + String.format("%.2f", preco);
 

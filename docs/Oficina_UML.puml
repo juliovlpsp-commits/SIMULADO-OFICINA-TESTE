@@ -1,0 +1,8 @@
+@startuml Oficina
+' TODO: desenhe o UML - veja docs/ENUNCIADO.md 7
+left to right direction
+skinparam classAttributeIconSize 0
+
+' apague o TODO e desenhe aqui
+
+@enduml

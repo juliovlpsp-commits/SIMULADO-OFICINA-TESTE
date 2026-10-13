@@ -10,7 +10,7 @@
 
 ## 1. VISAO GERAL
 
-Voce vai implementar o sistema de gestao da **Oficina do Seu Ze** - uma oficina mecanica de bairro que precisa controlar:
+Voce vai implementar o **Sistema de Gestao de Oficina Automotiva (SGOA)** - plataforma para gestao operacional de um centro automotivo especializado que precisa controlar:
 
 1. **Jornada dos mecanicos** (quem esta sobrecarregado)
 2. **Produtividade mensal** (meta de horas)
@@ -89,13 +89,13 @@ public class Mecanico {
 | Construtor | `Mecanico(String nome)` | Cria mecanico com nome, `horas=0`, `semanas=0` | Se `nome == null` ou `trim().isEmpty()` -> `throw new DadosInvalidosException("nome nao pode ser vazio")` |
 | `defineHoras` | `void defineHoras(int valor)` | Define total de horas | Se `valor < 0` -> `throw new DadosInvalidosException("horas nao pode ser menor que zero")` |
 | `defineSemanas` | `void defineSemanas(int valor)` | Define semanas | Se `valor < 0` -> mesmo throw, mensagem `"semanas nao pode ser menor que zero"` |
-| `getStatus` | `String getStatus()` | Retorna `"sobrecarregado"` se `semanas > 0 && (double)horas/semanas > 44`, senao `"disponivel"` | ⚠️ Atencao ao `(double)` e ao `semanas > 0` para evitar `Infinity` |
+| `getStatus` | `String getStatus()` | Retorna `"sobrecarregado"` se `semanas > 0 && (double)horas/semanas > 44`, senao `"disponivel"` | Atencao ao `(double)` e ao `semanas > 0` para evitar `Infinity` |
 | `getNome` | `String getNome()` | Getter | - |
-| `toString` | `String toString()` | Retorna `"nome - horas/semanas - status"` Ex: `"Ze - 90/2 - sobrecarregado"` | - |
+| `toString` | `String toString()` | Retorna `"nome - horas/semanas - status"` Ex: `"Silva - 90/2 - sobrecarregado"` | - |
 
 **Exemplos:**
 ```java
-Mecanico m = new Mecanico("Ze");
+Mecanico m = new Mecanico("M. Silva");
 m.getStatus() // "disponivel" -> 0/0
 m.defineHoras(30); m.defineSemanas(1); m.getStatus() // "disponivel" -> 30/1=30 <=44
 m.defineHoras(90); m.defineSemanas(2); m.getStatus() // "sobrecarregado" -> 90/2=45 >44
@@ -123,16 +123,16 @@ public class RegistroProdutividade {
 | Construtor 2 | `RegistroProdutividade(String nome, int meta)` | Cria registro | Se `nome` vazio/null -> `DadosInvalidosException("nome nao pode ser vazio")`. Se `meta <= 0` -> `DadosInvalidosException("meta deve ser maior que zero")` |
 | `adicionaHoras` | `void adicionaHoras(int h)` | Soma horas | Se `h < 0` -> `DadosInvalidosException("horas nao pode ser menor que zero")`. Senao `horasFeitas += h` |
 | `atingiuMeta` | `boolean atingiuMeta()` | `true` se `horasFeitas >= meta` | - |
-| `toString` | `String toString()` | `"nome horasFeitas/meta"` Ex: `"Ze 100/160"` | - |
+| `toString` | `String toString()` | `"nome horasFeitas/meta"` Ex: `"M. Silva 100/160"` | - |
 
 **Exemplos:**
 ```java
-RegistroProdutividade r1 = new RegistroProdutividade("Ze"); // meta 160
+RegistroProdutividade r1 = new RegistroProdutividade("M. Silva"); // meta 160
 r1.adicionaHoras(80); r1.atingiuMeta() // false
 r1.adicionaHoras(80); r1.atingiuMeta() // true
 RegistroProdutividade r2 = new RegistroProdutividade("Ana", 100);
 r2.adicionaHoras(100); r2.toString() // "Ana 100/100"
-new RegistroProdutividade("Ze", -10) // lanca DadosInvalidosException
+new RegistroProdutividade("M. Silva", -10) // lanca DadosInvalidosException
 ```
 
 ---
@@ -276,7 +276,7 @@ sobrecarregado
 horas nao pode ser menor que zero
 false
 true
-Ze 100/160
+M. Silva 100/160
 false
 true
 Troca de oleo 5 7.5 [8.0, 7.0, 6.0, 9.0]

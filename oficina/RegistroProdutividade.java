@@ -12,13 +12,25 @@ public class RegistroProdutividade {
         this(nome, 160);
     }
     public RegistroProdutividade(String nome, int meta) {
+        if (nome == null || nome.isEmpty())
         this.nome = nome;
         this.meta = meta;
         this.horasFeitas = 0;
+
     }
-public void adicionaHoras(int valor) {
-        if (valor < 0) {
-            throw new DadosInvalidosException("Horas adicionadas não podem ser negativas: " + valor);
+    public void adicionaHoras(int valor) {
+            if (valor < 0) {
+                throw new DadosInvalidosException("Horas adicionadas não podem ser negativas: " + valor);
+            }
+            this.horasFeitas += valor;
         }
-        this.horasFeitas += valor;
+    
+    public boolean atingiuMeta(){
+        return horasFeitas >= meta;
     }
+
+    @Override
+    public String toString(){
+        return nome + " " + horasFeitas / meta;
+    }
+}

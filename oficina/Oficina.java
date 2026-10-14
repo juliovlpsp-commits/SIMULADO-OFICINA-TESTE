@@ -16,17 +16,7 @@ public class Oficina {
     RegistroProdutividade r2 = new RegistroProdutividade("Ana", 100);
     r2.adicionaHoras(100); r2.toString(); // "Ana 100/100"
     new RegistroProdutividade("M. Silva", -10); // lanca DadosInvalidosException
+
     
-    Servico s = new Servico("Troca de oleo");
-    s.registraHoras(5); s.registraAvaliacao(1,8); s.registraAvaliacao(2,7); s.registraAvaliacao(3,6); s.registraAvaliacao(4,9);
-    s.calculaMedia(); // 7.5
-    s.aprovado(); // true
-
-    // Ponderado: pesos [4,3,2,1] -> (8*4+7*3+6*2+9*1)/(10) = 7.4
-    Servico sp = new Servico("Motor", 4, new int[]{4,3,2,1});
-
-    s.registraAvaliacao(5, 10); // lanca IllegalArgumentException
-
-
     }
 }

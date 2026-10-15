@@ -1,8 +1,134 @@
 @startuml Oficina
-' TODO: desenhe o UML - veja docs/ENUNCIADO.md 7
+' SGOA - Sistema de Gestao de Oficina Automotiva
+' Render at https://plantuml.com/plantuml or export to png
 left to right direction
+skinparam backgroundColor #121212
+skinparam shadowing false
+skinparam ArrowColor #BBBBBB
+skinparam ClassBackgroundColor #1E1E1E
+skinparam ClassBorderColor #3A3A3A
+skinparam ClassFontColor #E0E0E0
+skinparam ClassAttributeFontColor #E0E0E0
+skinparam ClassStereotypeFontColor #90CAF9
+skinparam ClassHeaderBackgroundColor #252525
+skinparam NoteBackgroundColor #2C2C2C
+skinparam NoteBorderColor #444444
+skinparam NoteFontColor #E0E0E0
+skinparam PackageBackgroundColor #1E1E1E
+skinparam PackageBorderColor #3A3A3A
+skinparam PackageFontColor #E0E0E0
 skinparam classAttributeIconSize 0
 
-' apague o TODO e desenhe aqui
+class Mecanico {
+  - nome : String
+  - horasTrabalhadas : int
+  - semanas : int
+  - LIMITE_HORAS : int
+  + Mecanico(nome: String)
+  + defineHoras(valor: int) : void
+  + defineSemanas(valor: int) : void
+  + getStatus() : String
+  + getNome() : String
+  + toString() : String
+}
 
+class RegistroProdutividade {
+  - nome : String
+  - meta : int
+  - horasFeitas : int
+  - META_PADRAO : int
+  + RegistroProdutividade(nome: String)
+  + RegistroProdutividade(nome: String, meta: int)
+  + adicionaHoras(h: int) : void
+  + atingiuMeta() : boolean
+  + toString() : String
+}
+
+class Servico {
+  - nomeServico : String
+  - horas : int
+  - avaliacoes : double[]
+  - pesos : int[]
+  - MEDIA_APROVACAO : double
+  + Servico(nome: String)
+  + Servico(nome: String, qtdAvaliacoes: int)
+  + Servico(nome: String, qtdAvaliacoes: int, pesos: int[])
+  + registraHoras(h: int) : void
+  + registraAvaliacao(num: int, valor: double) : void
+  - calculaMedia() : double
+  + aprovado() : boolean
+  + toString() : String
+}
+
+class Peca {
+  - codigo : String
+  - nome : String
+  - preco : double
+  + Peca(codigo: String, nome: String, preco: double)
+  + getCodigo() : String
+  + getNome() : String
+  + getPreco() : double
+  + toString() : String
+}
+
+class CatalogoPecas {
+  - pecas : Peca[]
+  - qtd : int
+  - pos : int
+  + CatalogoPecas(capacidade: int)
+  + adiciona(codigo: String, nome: String, preco: double) : void
+  + adicionaPeca(codigo: String, nome: String, preco: double) : void
+  + pegaPecas() : String[]
+  + conta() : int
+  + contaPecas() : int
+  + imprimePecas() : String
+  + temPeca(codigo: String) : boolean
+  + busca(chave: String) : String[]
+  - posReal(posLogica: int) : int
+}
+
+class Oficina {
+  + main(args: String[]) : void
+}
+
+class DadosInvalidosException {
+  + DadosInvalidosException(msg: String)
+}
+
+class PecaExistenteException {
+  + PecaExistenteException(msg: String)
+}
+
+DadosInvalidosException --|> IllegalArgumentException
+PecaExistenteException --|> RuntimeException
+
+CatalogoPecas "1" *-- "0..*" Peca : contem >
+Oficina ..> Mecanico : usa
+Oficina ..> RegistroProdutividade : usa
+Oficina ..> Servico : usa
+Oficina ..> CatalogoPecas : usa
+Mecanico ..> DadosInvalidosException : lanca
+RegistroProdutividade ..> DadosInvalidosException : lanca
+Servico ..> DadosInvalidosException : lanca
+CatalogoPecas ..> PecaExistenteException : lanca
+
+note right of CatalogoPecas
+  Buffer circular: ao encher
+  sobrescreve a peca mais antiga.
+  Peca duplicada lanca
+  PecaExistenteException.
+  busca() case-insensitive
+  e retorna codigos ordenados.
+end note
+
+note right of Servico
+  Media ponderada se
+  pesos != null
+  senao media aritmetica
+end note
+
+note right of Mecanico
+  sobrecarregado se
+  media > 44h/semana
+end note
 @enduml
